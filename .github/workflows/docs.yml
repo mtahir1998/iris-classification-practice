@@ -1,24 +1,23 @@
 name: Publish documentation
 
-# Rebuild and republish the API documentation on every push to main, so the
-# published site always matches the docstrings in src/.
+# Rebuild the API documentation from the docstrings in src/ and publish it to
+# the gh-pages branch on every push to main, so the published site always
+# matches the code in this repository.
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
-# Allow one concurrent deployment, without cancelling a run already in progress.
+# Never let two publishes race each other onto the gh-pages branch.
 concurrency:
-  group: pages
+  group: publish-documentation
   cancel-in-progress: false
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -35,18 +34,19 @@ jobs:
       - name: Build the API documentation with pdoc
         run: uv run pdoc --docformat google --output-dir docs src
 
-      - name: Upload the documentation as a Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish the documentation to the gh-pages branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # .nojekyll stops GitHub Pages running the output through Jekyll,
+          # which would otherwise hide files and folders beginning with "_".
+          touch docs/.nojekyll
+          cd docs
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publish documentation built from ${GITHUB_SHA}"
+          git push -q --force \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            gh-pages
