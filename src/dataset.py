@@ -42,6 +42,12 @@ class Dataset:
     It contains 150 samples of 3 flower species, each described by 4
     petal and sepal measurements in centimetres.
 
+    Note:
+        The data is never redistributed by this project. It is read from
+        :func:`sklearn.datasets.load_iris` at run time and written to
+        ``data/``, which is excluded from version control. The dataset was
+        first published by R. A. Fisher in 1936.
+
     A single instance walks through three stages. After ``load()`` the
     full data is available, after ``split()`` the train and test
     attributes are populated, and ``prepare()`` simply runs both.

@@ -1,6 +1,6 @@
 # Iris Flower Classification - Practice 2
 
-**Author**: Muhammad Tahir
+**Group members**: Muhammad Tahir
 **Course**: Software Development Oriented to Machine Learning
 **Task**: Project Structure, Training, and Visualization
 **Dataset**: Iris (Fisher, 1936) — 150 samples, 3 species, 4 features
