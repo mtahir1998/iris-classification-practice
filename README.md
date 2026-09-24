@@ -8,7 +8,7 @@
 
 ## 📖 Documentation website
 
-**https://USERNAME.github.io/REPONAME/**
+**https://mtahir1998.github.io/iris-classification-practice/**
 
 The full API reference is published there. It is rebuilt from the docstrings in
 `src/` and redeployed automatically by GitHub Actions on every push to `main`,
@@ -157,7 +157,7 @@ correlation heatmap.
 ## Documentation
 
 The published documentation lives at
-**https://USERNAME.github.io/REPONAME/**.
+**https://mtahir1998.github.io/iris-classification-practice/**.
 
 All modules, classes and methods use **Google-style docstrings** (Args,
 Returns, Raises, Attributes, Example). HTML documentation is generated with
@@ -192,8 +192,8 @@ published documentation accurate.
 ### 1. Set up your environment
 
 ```bash
-git clone https://github.com/USERNAME/REPONAME.git
-cd REPONAME
+git clone https://github.com/mtahir1998/iris-classification-practice.git
+cd iris-classification-practice
 uv sync --all-extras
 ```
 
