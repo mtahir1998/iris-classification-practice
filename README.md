@@ -6,6 +6,14 @@
 **Dataset**: Iris (Fisher, 1936) — 150 samples, 3 species, 4 features
 **Model**: Logistic Regression (scikit-learn)
 
+## 📖 Documentation website
+
+**https://USERNAME.github.io/REPONAME/**
+
+The full API reference is published there. It is rebuilt from the docstrings in
+`src/` and redeployed automatically by GitHub Actions on every push to `main`,
+so it always matches the code in this repository.
+
 ## What this project does
 
 This project trains a Logistic Regression classifier to predict the species of
@@ -148,9 +156,23 @@ correlation heatmap.
 
 ## Documentation
 
+The published documentation lives at
+**https://USERNAME.github.io/REPONAME/**.
+
 All modules, classes and methods use **Google-style docstrings** (Args,
-Returns, Raises, Attributes, Example). HTML documentation is auto-generated
-with **pdoc** into `docs/`. To regenerate it after editing any docstring:
+Returns, Raises, Attributes, Example). HTML documentation is generated with
+**pdoc**.
+
+### Automatic publishing
+
+`.github/workflows/docs.yml` rebuilds the documentation and redeploys it to
+GitHub Pages on every push to `main`. Because the site is generated in CI from
+the docstrings, the `docs/` folder is not committed — there is no way for the
+published documentation to fall out of date with the code.
+
+### Building the documentation locally
+
+To preview it on your own machine before pushing:
 
 ```bash
 uv run pdoc --docformat google --output-dir docs src
