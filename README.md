@@ -184,6 +184,77 @@ uv run pdoc --docformat google --output-dir docs src
 
 Then open `docs/index.html` in a browser to browse the API reference.
 
+## Contributing
+
+Contributions are welcome. The workflow below keeps `main` stable and the
+published documentation accurate.
+
+### 1. Set up your environment
+
+```bash
+git clone https://github.com/USERNAME/REPONAME.git
+cd REPONAME
+uv sync --all-extras
+```
+
+### 2. Work on a feature branch, never directly on `main`
+
+```bash
+git checkout -b feature/short-description
+```
+
+Use a prefix that says what the change is: `feature/` for new functionality,
+`fix/` for bug fixes, `docs/` for documentation.
+
+### 3. Follow the existing structure
+
+Each file has a single responsibility, and keeping that boundary is the point
+of the layout:
+
+| Change | Where it belongs |
+| --- | --- |
+| Loading or preprocessing data | `src/dataset.py` |
+| The estimator or its hyperparameters | `src/model.py` |
+| A new experiment | a **copy** of `src/train.py`, with new constants at the top |
+| Plots and analysis | `notebooks/analysis.ipynb` |
+
+Do not add plotting code to `src/`, and do not add data loading to
+`src/train.py` — that separation is what lets one fix propagate to every
+experiment.
+
+### 4. Document what you write
+
+Every public module, class and method needs a **Google-style docstring** with
+`Args`, `Returns`, and `Raises` where they apply. Check how it renders before
+opening a pull request:
+
+```bash
+uv run pdoc --docformat google --output-dir docs src
+```
+
+The `--docformat google` flag is required — without it pdoc assumes
+reStructuredText and collapses the sections into unformatted text.
+
+### 5. Verify your change actually runs
+
+```bash
+uv run python -m src.train
+uv run jupyter nbconvert --to notebook --execute --inplace notebooks/analysis.ipynb
+```
+
+Both must finish without errors before you push.
+
+### 6. Write descriptive commit messages
+
+State what changed and why. `Add stratified split to Dataset.split` is useful;
+`update`, `fix`, and `changes` are not.
+
+### 7. Open a pull request
+
+Push your branch and open a pull request against `main`, describing what you
+changed and how you tested it. Merges into `main` trigger the documentation
+workflow, so the published site updates on its own.
+
 ## Data Source
 
 The Iris dataset is built into scikit-learn. It was originally published by
